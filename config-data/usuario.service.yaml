@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: usuario.service
+
+server:
+  port: 8081
+

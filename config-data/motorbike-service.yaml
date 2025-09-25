@@ -1,6 +1,6 @@
 spring:
   application:
-    name: usuario-service
+    name: motorbike-service
 
 server:
   port: ${PORT:${SERVER_PORT:0}}

@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: usuario-service
+
+  config:
+    import: "optional:configserver:http://localhost:8080"
+
+server:
+  port: 0   # temporal, luego se sobreescribe con el config de Git

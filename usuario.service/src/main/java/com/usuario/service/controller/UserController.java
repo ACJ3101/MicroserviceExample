@@ -52,10 +52,11 @@ public class UserController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<User> saveUser(User user){
-		User newUser = userService.saveUser(user);
-		return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+	public ResponseEntity<User> saveUser(@RequestBody User user){
+	    User newUser = userService.saveUser(user);
+	    return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
 	}
+
 	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteUser(@PathVariable Long id){

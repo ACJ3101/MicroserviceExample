@@ -5,3 +5,5 @@ spring:
     config:
       enabled: true
       uri: http://localhost:8080
+server:
+  port: 0   # arranca en un puerto aleatorio hasta que obtenga config rea

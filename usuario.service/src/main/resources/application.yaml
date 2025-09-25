@@ -1,7 +1,9 @@
 spring:
   application:
     name: usuario-service
-  cloud:
-    config:
-      enabled: true
-      uri: http://localhost:8081
+
+  config:
+    import: "optional:configserver:http://localhost:8080"
+
+server:
+  port: 0   # temporal, luego se sobreescribe con el config de Git

@@ -1,9 +1,9 @@
 spring:
   application:
     name: motorbike-service
-  cloud:
-    config:
-      enabled: true
-      uri: http://localhost:8080			
+
+  config:
+    import: "optional:configserver:http://localhost:8080"
+
 server:
-  port: 0   # arranca en un puerto aleatorio hasta que obtenga config rea
+  port: 0   # temporal, luego se sobreescribe con el config de Git

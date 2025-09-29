@@ -19,6 +19,8 @@ import com.usuario.service.models.Motorbike;
 import com.usuario.service.repository.UserRepository;
 import com.usuario.service.service.UserService;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+
 @RestController
 @RequestMapping("/usuarios")  
 public class UserController {
@@ -94,36 +96,72 @@ public class UserController {
 //		return ResponseEntity.ok(cars);
 //	}
 	
+	@CircuitBreaker(name = "carsCB",fallbackMethod = "fallBackSaveCar")
 	@PostMapping("/cars/{userId}")
 	public ResponseEntity<Car> saveCar(@PathVariable("userId") Long userId, @RequestBody Car car) {
 	    Car newCar = userService.saveCar(userId, car);
 	    return ResponseEntity.ok(newCar);
 	}
-	
+	@CircuitBreaker(name = "carsCB",fallbackMethod = "fallBackGetCar")
 	@GetMapping("/cars/{userId}")
 	public ResponseEntity<List<Car>> getCarsById(@PathVariable("userId") Long userId){
 		List<Car> listCars =  userService.getCars(userId);
 		return ResponseEntity.ok(listCars);
 	}
 	
+	@CircuitBreaker(name = "motorbikesCB",fallbackMethod = "fallBackSaveMotorbike")
 	@PostMapping("/motorbikes/{userId}")
 	public ResponseEntity<Motorbike> saveMotorbike(@PathVariable("userId") Long userId, @RequestBody Motorbike motorbike) {
 		Motorbike newMotorbike = userService.saveMotorbike(userId, motorbike);
 		return ResponseEntity.ok(newMotorbike);
 	}
-	
+	@CircuitBreaker(name = "motorbikesCB",fallbackMethod = "fallBackGetmotorbike")
 	@GetMapping("/motorbikes/{userId}")
 	public ResponseEntity<List<Motorbike>> getMotorbikeById(@PathVariable("userId") Long userId){
 		List<Motorbike> listMotorbike=  userService.getMotorbikes(userId);
 		return ResponseEntity.ok(listMotorbike);
 	}
-	
+	@CircuitBreaker(name = "allCB",fallbackMethod = "fallBackGetAll")
 	@GetMapping("/all/{userId}")
 	public ResponseEntity<Map<String, Object>> getVehiclesByUserId(@PathVariable("userId") Long userId){
 		Map<String, Object> result =  userService.getUserAndVehicles(userId);
 		return ResponseEntity.ok(result);
 	}
 
+	  private ResponseEntity<String> fallBackGetCar(Long userId, Throwable exception) {
+	        return new ResponseEntity<>(
+	                "El usuario " + userId + " no tiene operativo ese coche",
+	                HttpStatus.OK
+	        );
+	    }
+	
+	  private ResponseEntity<String> fallBackSaveCar(Long userId, Throwable exception) {
+		  return new ResponseEntity<>(
+				  "No es posible guardar el coche del usuario con id : "+ userId,
+				  HttpStatus.OK
+				  );
+	  }
+	  private ResponseEntity<String> fallBackGetMotorbike(Long userId, Throwable exception) {
+		  return new ResponseEntity<>(
+				  "El usuario " + userId + " no tiene operativo esa moto",
+				  HttpStatus.OK
+				  );
+	  }
+	  
+	  private ResponseEntity<String> fallBackSaveMotorbike(Long userId, Throwable exception) {
+		  return new ResponseEntity<>(
+				  "No es posible guardar la moto del usuario con id : "+ userId,
+				  HttpStatus.OK
+				  );
+	  }
+	  private ResponseEntity<String> fallBackAll(Long userId, Throwable exception) {
+		  return new ResponseEntity<>(
+				  "No es posible usar ese servicio para el usuario con id : "+ userId,
+				  HttpStatus.OK
+				  );
+	  }
+	  
+	
 	
 				
 

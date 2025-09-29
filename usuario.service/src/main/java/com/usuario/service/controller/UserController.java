@@ -128,34 +128,34 @@ public class UserController {
 		return ResponseEntity.ok(result);
 	}
 
-	  private ResponseEntity<String> fallBackGetCar(Long userId, Throwable exception) {
-	        return new ResponseEntity<>(
+	  private ResponseEntity<List<Car>> fallBackGetCar(Long userId, Throwable exception) {
+	        return new ResponseEntity(
 	                "El usuario " + userId + " no tiene operativo ese coche",
 	                HttpStatus.OK
 	        );
 	    }
 	
-	  private ResponseEntity<String> fallBackSaveCar(Long userId, Throwable exception) {
-		  return new ResponseEntity<>(
-				  "No es posible guardar el coche del usuario con id : "+ userId,
-				  HttpStatus.OK
-				  );
-	  }
-	  private ResponseEntity<String> fallBackGetMotorbike(Long userId, Throwable exception) {
-		  return new ResponseEntity<>(
+	  private ResponseEntity<Object> fallBackSaveCar(Long userId, Car car, Throwable exception) {
+		    // Aquí puedes devolver un mensaje o incluso datos dummy
+		    return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+		                         .body("No es posible guardar el coche del usuario con id: " + userId + 
+		                               ". Servicio no disponible, se usó fallback.");
+		}
+	  private ResponseEntity<List<Motorbike>> fallBackGetMotorbike(Long userId, Throwable exception) {
+		  return new ResponseEntity(
 				  "El usuario " + userId + " no tiene operativo esa moto",
 				  HttpStatus.OK
 				  );
 	  }
 	  
-	  private ResponseEntity<String> fallBackSaveMotorbike(Long userId, Throwable exception) {
-		  return new ResponseEntity<>(
-				  "No es posible guardar la moto del usuario con id : "+ userId,
-				  HttpStatus.OK
-				  );
-	  }
-	  private ResponseEntity<String> fallBackAll(Long userId, Throwable exception) {
-		  return new ResponseEntity<>(
+	  private ResponseEntity<Object> fallBackSaveMotorbike(Long userId, Motorbike motorbike, Throwable exception) {
+		    // Aquí puedes devolver un mensaje o incluso datos dummy
+		    return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+		                         .body("No es posible guardar la moto del usuario con id: " + userId + 
+		                               ". Servicio no disponible, se usó fallback.");
+		}
+	  private ResponseEntity<Map<String, Object>> fallBackGetAll(Long userId, Throwable exception) {
+		  return new ResponseEntity(
 				  "No es posible usar ese servicio para el usuario con id : "+ userId,
 				  HttpStatus.OK
 				  );

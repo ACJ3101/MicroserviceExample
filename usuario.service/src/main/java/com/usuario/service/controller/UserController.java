@@ -115,7 +115,7 @@ public class UserController {
 		Motorbike newMotorbike = userService.saveMotorbike(userId, motorbike);
 		return ResponseEntity.ok(newMotorbike);
 	}
-	@CircuitBreaker(name = "motorbikesCB",fallbackMethod = "fallBackGetmotorbike")
+	@CircuitBreaker(name = "motorbikesCB",fallbackMethod = "fallBackGetMotorbike")
 	@GetMapping("/motorbikes/{userId}")
 	public ResponseEntity<List<Motorbike>> getMotorbikeById(@PathVariable("userId") Long userId){
 		List<Motorbike> listMotorbike=  userService.getMotorbikes(userId);
